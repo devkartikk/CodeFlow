@@ -1,0 +1,56 @@
+/* The workspace is deliberately compact on laptops and becomes a natural
+   vertical stack only when the available width can no longer support it. */
+html, body { min-width: 0; overflow-x: hidden; }
+.app-shell, .topbar, .workspace, .lower-sections, .ai-section, .challenge-strip, .footer { min-width: 0; }
+.hero-copy, .hero-visual, .workspace-grid, .workspace-drawer, .panel, .editor-panel, .right-rail { min-width: 0; }
+.flow-map, .data-list, .stack-list, .console-output, .diagnostics-output { scrollbar-width: thin; }
+
+@media (max-width: 1180px) {
+  .topbar { gap: 13px; padding-inline: 22px; }
+  .main-nav { overflow-x: auto; scrollbar-width: none; }
+  .main-nav::-webkit-scrollbar { display: none; }
+  .workspace-grid { grid-template-columns: minmax(0, 1.2fr) minmax(275px, .8fr); }
+  .workspace-drawer { grid-template-columns: minmax(0, 1.3fr) minmax(200px, .9fr) minmax(190px, .9fr); height: 208px; }
+  .diagnostics-panel { grid-column: 1 / -1; }
+  .diagnostics-panel .diagnostics-output { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+}
+
+@media (max-width: 900px) {
+  .topbar { min-height: 58px; flex-wrap: wrap; padding-block: 10px; }
+  .mobile-menu { display: inline-grid; margin-left: auto; }
+  .top-actions { margin-left: auto; }
+  .main-nav { display: none; order: 5; flex-basis: 100%; width: 100%; flex-direction: column; align-items: stretch; padding: 5px 0; }
+  .main-nav.mobile-open { display: flex; }
+  .nav-link { width: 100%; }
+  .hero { grid-template-columns: 1fr; gap: 22px; min-height: 0; padding-top: 30px; padding-bottom: 26px; }
+  .hero-visual { order: -1; min-height: 205px; }
+  .hero-copy { text-align: center; }.hero-copy > p { margin-inline: auto; }.hero-actions, .hero-proof { justify-content: center; }
+  .workspace-grid { grid-template-columns: 1fr; height: auto; }
+  .language-bar .lang-tab .lang-ext { display: none; }
+  .editor-panel { height: 380px; }
+  .right-rail { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); grid-template-rows: 290px 290px; }
+  .workspace-drawer { grid-template-columns: minmax(0, 1.2fr) minmax(210px, .8fr); height: auto; }
+  .flow-panel, .data-panel, .console-panel, .diagnostics-panel { min-height: 190px; }
+  .diagnostics-panel { grid-column: auto; }
+  .diagnostics-panel .diagnostics-output { display: block; }
+  .ai-card { grid-template-columns: auto minmax(0, 1fr); }.ai-chat { grid-column: 1 / -1; }
+}
+
+@media (max-width: 620px) {
+  .page-section { padding-inline: 14px; }
+  .topbar { padding-inline: 14px; }.top-actions .button { display: none; }
+  .brand { font-size: 17px; }
+  .hero { padding-top: 22px; }.hero h1 { font-size: clamp(38px, 13vw, 55px); }.hero-visual { min-height: 170px; }.mini-code { padding: 12px 14px 8px; font-size: 10px; }.mini-flow { padding: 8px 10px 10px; }.floating-stat { right: 0; bottom: -10px; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 9px; }.workspace-heading { flex-direction: row; align-items: flex-end; }.workspace-tools { flex-wrap: wrap; justify-content: flex-end; }.save-state { display: none; }
+  .workspace { padding-top: 14px; }.workspace-grid { gap: 10px; }.editor-panel { height: 330px; }.right-rail { display: flex; flex-direction: column; gap: 10px; }.run-panel { min-height: 150px; }.selected-step-panel { min-height: 200px; }.explain-panel { min-height: 200px; }
+  .workspace-drawer { grid-template-columns: 1fr; gap: 10px; }.flow-panel, .data-panel, .console-panel, .diagnostics-panel { min-height: 205px; }.console-panel { min-height: 265px; }.flow-map { min-height: 85px; }.timeline { flex-wrap: wrap; }.timeline-track { order: 2; flex-basis: 100%; }.timeline > #step-count { margin-left: auto; }.timeline > #sound-status { display: none; }
+  .find-bar { flex-wrap: wrap; }.find-bar input { flex: 1 1 120px; width: auto; min-width: 0; }.editor-footer { font-size: 9px; }
+  /* Keep all five languages on screen without a horizontal scroll — a hidden
+     language is the same problem as a dropdown showing only one. */
+  .editor-header { gap: 6px; }.file-tab { min-width: 0; }.file-tab span:not(.python-dot) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Five language tabs have to stay reachable on a phone too. */
+  .language-bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; }.language-bar-label { display: none; }.language-bar .lang-tab { padding: 9px 4px; font-size: 11px; gap: 5px; }
+  .ai-card { grid-template-columns: 1fr; padding: 18px; }.ai-icon { display: none; }.ai-chat { grid-column: auto; }.card-grid { grid-template-columns: 1fr; }.learning-card { min-height: 0; }.challenge-strip { align-items: flex-start; flex-direction: column; margin-inline: 14px; padding: 18px; }.footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+  /* Five example pills have to stay reachable on a phone too. */
+  .example-langs { width: 100%; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }.example-langs::-webkit-scrollbar { display: none; }.example-langs-label { display: none; }.example-lang { padding: 5px 7px; font-size: 10px; }
+}

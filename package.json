@@ -1,0 +1,9 @@
+{
+  "name": "codeflow-static-prototype",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone dependency-free CodeFlow frontend",
+  "scripts": {
+    "test": "node smoke-test.js"
+  }
+}

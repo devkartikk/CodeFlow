@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CodeFlow — a visual code learning and debugging workspace.">
+  <title>CodeFlow · Visualize your code</title>
+  <link rel="stylesheet" href="styles.css?v=61">
+  <link rel="stylesheet" href="responsive.css?v=61">
+  <link rel="stylesheet" href="lesson.css?v=61">
+  <link rel="stylesheet" href="warm.css?v=61">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="CodeFlow home"><span class="brand-mark">⌘</span><span>Code<span class="brand-accent">Flow</span></span></a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link" href="#visualizer">Visualizer</a>
+        <a class="nav-link" href="#learn">Learn</a>
+        <a class="nav-link" href="#examples">Examples</a>
+      </nav>
+      <div class="top-actions"><button class="icon-button" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">☼</button><button class="button button-ghost" id="import-button">Import</button><button class="button button-ghost" id="share-button">Share</button><button class="button button-primary" id="export-button">Export <span aria-hidden="true">↗</span></button></div>
+      <button class="mobile-menu" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </header>
+
+    <main>
+      <section class="hero page-section" id="home">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="status-dot"></span> Interactive code learning</div>
+          <h1>See the <span class="gradient-text">story</span><br>inside your code.</h1>
+          <p>Write, run, and understand code one step at a time. CodeFlow turns execution into a visual map you can explore.</p>
+          <div class="hero-actions"><a class="button button-primary button-large" href="#visualizer">Open visualizer <span aria-hidden="true">→</span></a><a class="text-link" href="#examples">Explore examples <span aria-hidden="true">↗</span></a></div>
+          <div class="hero-proof"><span class="avatar-stack"><i>AL</i><i>MK</i><i>JR</i><i>+</i></span><span>Trusted by curious builders</span></div>
+        </div>
+        <div class="hero-visual" aria-label="Code execution preview">
+          <div class="glow-orb orb-one"></div><div class="glow-orb orb-two"></div>
+          <div class="mini-window glass-card"><div class="window-chrome"><span></span><span></span><span></span><b>playground.py</b><em>● synced</em></div><div class="mini-code"><span class="muted">01</span> <span class="purple">def</span> <span class="blue">fibonacci</span>(n):<br><span class="muted">02</span> &nbsp;&nbsp;<span class="purple">if</span> n &lt;= <span class="orange">1</span>:<br><span class="muted">03</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="purple">return</span> n<br><span class="muted">04</span> &nbsp;&nbsp;<span class="purple">return</span> fibonacci(n-<span class="orange">1</span>) + ...</div><div class="mini-flow"><span class="flow-node active">start</span><i>→</i><span class="flow-node">if</span><i>→</i><span class="flow-node">return</span></div></div>
+          <div class="floating-stat glass-card"><span class="stat-icon">↯</span><div><strong>12 steps</strong><small>execution mapped</small></div></div>
+        </div>
+      </section>
+
+      <section class="workspace page-section" id="visualizer">
+        <div class="section-heading workspace-heading">
+          <div><div class="eyebrow">THE WORKSPACE</div><h2>Learn as you run.</h2><p class="section-note">Edit on the left, then follow the selected step on the right.</p></div>
+          <div class="workspace-tools"><span class="save-state" id="save-state">All changes saved</span><button class="button button-ghost animate-launch" id="animate-button"><span aria-hidden="true">▶</span> Animate</button><button class="button button-primary lesson-launch" id="lesson-button"><span aria-hidden="true">◈</span> Voice lesson</button><button class="button button-ghost" id="restore-button">↶ Restore</button><button class="button button-ghost" id="undo-button">↩ Undo</button></div>
+        </div>
+
+        <div class="language-bar" id="language-tabs" role="group" aria-label="Programming language">
+          <span class="language-bar-label">Language</span>
+          <button type="button" class="lang-tab" data-language="python" aria-pressed="true"><span class="lang-dot"></span><span class="lang-name">Python</span><span class="lang-ext">.py</span></button>
+          <button type="button" class="lang-tab" data-language="javascript" aria-pressed="false"><span class="lang-dot"></span><span class="lang-name">JavaScript</span><span class="lang-ext">.js</span></button>
+          <button type="button" class="lang-tab" data-language="java" aria-pressed="false"><span class="lang-dot"></span><span class="lang-name">Java</span><span class="lang-ext">.java</span></button>
+          <button type="button" class="lang-tab" data-language="c" aria-pressed="false"><span class="lang-dot"></span><span class="lang-name">C</span><span class="lang-ext">.c</span></button>
+          <button type="button" class="lang-tab" data-language="cpp" aria-pressed="false"><span class="lang-dot"></span><span class="lang-name">C++</span><span class="lang-ext">.cpp</span></button>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="panel editor-panel" aria-label="Code editor">
+            <div class="panel-header editor-header"><div class="file-tab"><span class="python-dot"></span><span id="file-name">main.py</span><span class="tab-close">×</span></div><div class="editor-actions"><button class="icon-button small" id="find-button" title="Find and replace">⌕</button></div></div>
+            <div class="editor-wrap"><div class="line-numbers" id="line-numbers" aria-hidden="true"></div><div class="editor-code"><pre class="editor-highlight" id="editor-highlight" aria-hidden="true"><code id="editor-highlight-code"></code></pre><textarea id="code-editor" spellcheck="false" aria-label="Code editor">def greet(name):
+    message = f"Hello, {name}!"
+    return message
+
+name = "world"
+result = greet(name)
+print(result)</textarea></div></div>
+            <div class="find-bar hidden" id="find-bar"><input id="find-input" type="search" placeholder="Find" aria-label="Find text"><input id="replace-input" type="text" placeholder="Replace with" aria-label="Replace text"><button class="button button-ghost small-button" id="replace-button">Replace</button><button class="button button-ghost small-button" id="replace-all-button">All</button><button class="icon-button small" id="close-find" aria-label="Close find and replace">×</button></div>
+            <div class="editor-footer"><span><span class="online-dot"></span> Ready to run</span><span id="cursor-position">Ln 1, Col 1</span><span>UTF-8</span></div>
+          </section>
+
+          <aside class="right-rail">
+            <section class="panel run-panel compact-panel"><div class="panel-header"><div><span class="panel-kicker">1 · RUN</span><h3>Try your code</h3></div><span class="api-badge" id="api-badge">API ready</span></div><div class="run-controls"><button class="button button-primary run-button" id="run-button"><span>▶</span> Run</button><button class="button button-secondary" id="analyze-button">Explain</button><button class="button button-secondary" id="verify-button">Check</button><button class="button button-secondary" id="stdin-button" title="Program input (stdin)">Input</button></div><div class="run-meta"><span id="run-status">Waiting for your code</span><span id="run-time">—</span></div><div class="offline-note" id="offline-note"><span>◌</span> Offline fallback available for this Python subset</div></section>
+            <section class="panel trace-panel selected-step-panel"><div class="panel-header compact"><div><span class="panel-kicker">2 · SELECTED STEP</span><h3 id="event-title">No event selected</h3></div><span class="trace-badge" id="event-type">Unknown</span></div><div class="trace-meta" id="event-meta">Run the program to inspect an execution event.</div><div class="trace-block"><span class="trace-label">This line</span><pre id="event-source">Unknown source</pre></div></section>
+            <section class="panel explain-panel"><div class="panel-header compact"><div><span class="panel-kicker">WHAT HAPPENED</span><h3>This step, explained</h3></div></div><p class="explain-body" id="event-explanation">Unknown behavior — no execution event is selected.</p></section>
+            <section class="panel explain-ai-panel"><button type="button" class="explain-ai-toggle" id="explain-ai-toggle" aria-expanded="false" aria-controls="ai-explain-body"><div class="panel-header compact"><div><span class="panel-kicker">AI EXPLAIN</span><h3>Explain with AI</h3></div><span class="chevron" id="explain-ai-chevron">▸</span></div></button><div class="explain-ai-body hidden" id="ai-explain-body"><p class="explain-body" id="ai-explain-text">Press <b>Explain</b> to get an AI walkthrough of the selected step.</p></div></section>
+          </aside>
+        </div>
+
+        <div class="workspace-drawer" aria-label="Execution details">
+          <section class="panel drawer-card flow-panel"><div class="panel-header compact"><div><span class="panel-kicker">3 · TIMELINE</span><h3>Execution path</h3></div><button class="icon-button small" id="reset-timeline" title="Reset timeline">↺</button></div><div class="flow-map" id="flow-map"><div class="flow-empty">Run the program to build a trace from returned events.</div></div><div class="limit-note hidden" id="limit-note" role="status" aria-live="polite"></div><div class="timeline"><button class="timeline-button" id="previous-step" aria-label="Previous step">‹</button><button class="play-button" id="play-button" aria-label="Play timeline">▶</button><button class="timeline-button" id="next-step" aria-label="Next step">›</button><div class="timeline-track"><div class="timeline-progress" id="timeline-progress"></div><div class="timeline-thumb" id="timeline-thumb"></div></div><span id="step-count">0 / 0</span><button class="button button-ghost sound-button" id="sound-toggle" type="button" aria-pressed="false" aria-describedby="sound-status">🔇 Sound off</button><span id="sound-status" role="status" aria-live="polite">Sound off · enable to hear trace steps</span></div></section>
+
+          <section class="panel drawer-card data-panel"><div class="panel-header compact"><div><span class="panel-kicker">4 · STATE</span><h3>Variables</h3></div><span class="count-badge" id="variable-count">0</span></div><div class="data-list" id="variables-list"><div class="data-row empty-row"><span class="data-type">—</span><b>No event data</b><code>run code first</code></div></div><div class="sub-panel-heading">Changed since previous step</div><div class="data-list changed-list" id="changed-variables"><div class="data-row empty-row"><span class="data-type">—</span><b>Unknown</b><code>no event selected</code></div></div><div class="stack-summary"><div class="sub-panel-heading">Call stack <span class="stack-state" id="stack-state">Unknown</span></div><div class="stack-list" id="stack-list"><div class="stack-row current"><span class="stack-icon">↳</span><div><b>Unknown</b><small>No call-stack data returned.</small></div></div></div></div></section>
+
+          <section class="panel drawer-card console-panel"><div class="panel-header compact"><div><span class="panel-kicker">5 · OUTPUT</span><h3>Console</h3></div><button class="text-button" id="clear-console">Clear</button></div><div class="terminal" id="terminal"><div class="terminal-stream" id="console-output"><div class="console-line muted-line"><span>›</span><span>Run the program to see output here</span></div></div><div class="terminal-prompt-row"><span class="terminal-prompt-char">›</span><input id="terminal-input" class="terminal-input-line" type="text" autocomplete="off" spellcheck="false" placeholder="Type input, press Enter"><button class="terminal-send" id="terminal-send" type="button" aria-label="Add input line">↵</button></div></div><div class="event-output-inline"><div class="inline-heading"><span>Selected output</span><span class="trace-badge" id="event-output-status">Unknown</span></div><div class="console-output" id="event-output"><div class="console-line muted-line"><span>›</span><span>No output recorded for this event.</span></div></div></div></section>
+
+          <section class="panel drawer-card diagnostics-panel"><div class="panel-header compact"><div><span class="panel-kicker">CHECK</span><h3>Diagnostics</h3></div><span class="diagnostic-ok" id="diagnostic-status">● No issues</span></div><div class="diagnostics-output" id="diagnostics-output"><div class="diagnostic-line"><span class="check">✓</span><div><b>Code looks good</b><small>Ready to execute your Python program.</small></div></div></div></section>
+        </div>
+      </section>
+
+      <section class="ai-section page-section" id="learn"><div class="ai-card glass-card"><div class="ai-icon">✦</div><div class="ai-copy"><div class="eyebrow">FLOWMIND AI</div><h2>Get unstuck, faster.</h2><p>Ask about the code you’re looking at. Get a plain-English explanation, a hint, or a next step without leaving the flow.</p><div class="suggestion-chips"><button class="chip" data-prompt="Explain this code simply">Explain this code</button><button class="chip" data-prompt="Give me a hint">Give me a hint</button><button class="chip" data-prompt="What should I try next?">What next?</button></div></div><div class="ai-chat"><div class="ai-provider-badge not-configured" id="ai-provider-status">Not configured</div><div class="chat-message"><span class="ai-avatar">✦</span><p id="ai-response">Hi! I’m ready to help you understand this code.</p></div><div class="ai-proposal hidden" id="ai-proposal"></div><div class="chat-input"><input id="ai-input" placeholder="Ask FlowMind anything..." aria-label="Ask FlowMind"><button class="button button-primary" id="ai-button" aria-label="Ask FlowMind">↑</button></div><span class="ai-status" id="ai-status">Configure a provider to receive a remote AI answer.</span></div></div></section>
+      <section class="lower-sections page-section" id="examples">
+        <div class="section-heading examples-heading">
+          <div><div class="eyebrow">KEEP EXPLORING</div><h2>Learn by doing.</h2><p class="section-note">Every example is written in all five languages.</p></div>
+          <div class="example-langs" id="example-langs" role="group" aria-label="Example language">
+            <span class="example-langs-label">Show in</span>
+            <button type="button" class="example-lang" data-language="python" aria-pressed="true">Python</button>
+            <button type="button" class="example-lang" data-language="javascript" aria-pressed="false">JavaScript</button>
+            <button type="button" class="example-lang" data-language="java" aria-pressed="false">Java</button>
+            <button type="button" class="example-lang" data-language="c" aria-pressed="false">C</button>
+            <button type="button" class="example-lang" data-language="cpp" aria-pressed="false">C++</button>
+          </div>
+        </div>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Basics</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">01</span><h3>Swap two values</h3><p>A temporary variable holds one value while the other moves.</p><pre class="card-preview" data-example-preview="swap" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="swap">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="swap"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">02</span><h3>Average of a list</h3><p>Add everything, then divide by how many there are.</p><pre class="card-preview" data-example-preview="average" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="average">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="average"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Conditionals</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">03</span><h3>Which branch runs?</h3><p>Watch the condition decide which path the code takes.</p><pre class="card-preview" data-example-preview="branching" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="branching">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="branching"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">04</span><h3>Grades in bands</h3><p>An else-if chain tests the next condition only when the last one failed.</p><pre class="card-preview" data-example-preview="grade" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="grade">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="grade"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Loops</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">05</span><h3>Loops under the microscope</h3><p>Follow every iteration and see exactly when values change.</p><pre class="card-preview" data-example-preview="loops" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="loops">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="loops"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">06</span><h3>While the count is above zero</h3><p>A while loop keeps going until its condition turns false.</p><pre class="card-preview" data-example-preview="whileloop" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="whileloop">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="whileloop"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Nested loops</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">07</span><h3>A grid of numbers</h3><p>A loop inside a loop draws a grid, row by row.</p><pre class="card-preview" data-example-preview="nested" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="nested">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="nested"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">08</span><h3>Growing triangle</h3><p>The inner loop runs one more time on every row.</p><pre class="card-preview" data-example-preview="triangle" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="triangle">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="triangle"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Functions</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">09</span><h3>Functions calling functions</h3><p>One call pauses while another runs, then the stack unwinds.</p><pre class="card-preview" data-example-preview="functions" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="functions">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="functions"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">10</span><h3>One function, many answers</h3><p>Call the same function twice with different arguments.</p><pre class="card-preview" data-example-preview="area" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="area">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="area"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Recursion</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">11</span><h3>Recursion, visualized</h3><p>Trace a function as it calls itself and watch the stack grow.</p><pre class="card-preview" data-example-preview="recursion" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="recursion">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="recursion"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">12</span><h3>Factorial by recursion</h3><p>Each call waits on a smaller version of itself.</p><pre class="card-preview" data-example-preview="factorial" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="factorial">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="factorial"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Arrays and lists</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">13</span><h3>Find the biggest number</h3><p>One variable has to beat every value in the list to win.</p><pre class="card-preview" data-example-preview="max" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="max">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="max"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">14</span><h3>Arrays and lists</h3><p>Many values under one name, added up in a loop.</p><pre class="card-preview" data-example-preview="arrays" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="arrays">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="arrays"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Strings</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">15</span><h3>Count the vowels</h3><p>A loop over characters, one letter at a time.</p><pre class="card-preview" data-example-preview="strings" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="strings">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="strings"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">16</span><h3>Is it a palindrome?</h3><p>Build the word backwards, then compare.</p><pre class="card-preview" data-example-preview="palindrome" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="palindrome">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="palindrome"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Searching</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">17</span><h3>Linear search</h3><p>Walk the list and stop the moment the value turns up.</p><pre class="card-preview" data-example-preview="search" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="search">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="search"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">18</span><h3>Binary search</h3><p>Halve the range each time instead of checking every item.</p><pre class="card-preview" data-example-preview="binary" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="binary">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="binary"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Sorting</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">19</span><h3>Bubble sort</h3><p>Swap neighbours until nothing is out of order.</p><pre class="card-preview" data-example-preview="sort" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="sort">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="sort"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">20</span><h3>Selection sort</h3><p>Find the smallest value and move it to the front, once per pass.</p><pre class="card-preview" data-example-preview="selection" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="selection">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="selection"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Maps and counting</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">21</span><h3>Maps and counting</h3><p>One key, one tally — no nested loop needed.</p><pre class="card-preview" data-example-preview="maps" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="maps">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="maps"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">22</span><h3>Count the letters</h3><p>The same map idea, now keyed by character.</p><pre class="card-preview" data-example-preview="letters" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="letters">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="letters"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Classes and objects</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">23</span><h3>Classes and objects</h3><p>Bundle data together with the functions that act on it.</p><pre class="card-preview" data-example-preview="classes" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="classes">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="classes"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">24</span><h3>An object that remembers</h3><p>State lives inside the object, so each call builds on the last.</p><pre class="card-preview" data-example-preview="counter" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="counter">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="counter"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Errors and guards</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">25</span><h3>Errors and guards</h3><p>Catch the bad case instead of letting the program crash.</p><pre class="card-preview" data-example-preview="errors" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="errors">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="errors"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">26</span><h3>Out of range</h3><p>Check the index before you trust it.</p><pre class="card-preview" data-example-preview="guard" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="guard">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="guard"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+        <section class="example-group">
+          <div class="example-group-head"><h3>Number logic</h3><span>2 examples</span></div>
+          <div class="card-grid">
+            <article class="learning-card"><span class="card-number">27</span><h3>Prime or not</h3><p>Modulo decides whether a number is prime.</p><pre class="card-preview" data-example-preview="primes" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="primes">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="primes"><span aria-hidden="true">▶</span> Watch</button></article>
+            <article class="learning-card"><span class="card-number">28</span><h3>Sum the digits</h3><p>Peel off the last digit with modulo, then divide.</p><pre class="card-preview" data-example-preview="digits" aria-hidden="true"></pre><a href="#visualizer" class="card-link" data-example="digits">Try example <span>→</span></a><button type="button" class="card-watch" data-animate="digits"><span aria-hidden="true">▶</span> Watch</button></article>
+          </div>
+        </section>
+      </section>
+    </main>
+    <footer class="footer"><span>© 2026 CodeFlow</span><span>Made for curious minds</span><span class="footer-links"><a href="#home">Status <i class="status-dot"></i></a></span></footer>
+  </div>
+  <input type="file" id="file-input" accept=".py,.js,.java,.c,.cpp,.h,.txt" hidden>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="lesson" id="lesson" hidden>
+    <div class="lesson-stage" role="dialog" aria-modal="true" aria-label="Voice lesson">
+      <header class="lesson-top">
+        <div class="lesson-brand"><span class="lesson-pip"></span><b>Lesson</b><span class="lesson-file" id="lesson-file">main.py</span></div>
+        <div class="lesson-track"><div class="lesson-bar" id="lesson-bar"></div></div>
+        <span class="lesson-count" id="lesson-count">0 / 0</span>
+        <span class="lesson-hint">Click any line to hear it</span>
+        <button class="lesson-close" id="lesson-close" aria-label="Close lesson">×</button>
+      </header>
+      <div class="lesson-body">
+        <section class="lesson-code" id="lesson-code" aria-label="Source code"></section>
+        <aside class="lesson-side">
+          <div class="lesson-block">
+            <h4 id="lesson-head-step">This step</h4>
+            <div class="lesson-step-row"><span class="lesson-chip" id="lesson-step-type">line</span><span class="lesson-step-fn" id="lesson-step-fn">—</span></div>
+            <div class="lesson-step-seq" id="lesson-step-seq">—</div>
+          </div>
+          <div class="lesson-block">
+            <h4><span id="lesson-head-vars">Variables</span> <span class="lesson-badge" id="lesson-var-count">0</span></h4>
+            <div class="lesson-vars" id="lesson-vars"></div>
+          </div>
+          <div class="lesson-block">
+            <h4 id="lesson-head-stack">Call stack</h4>
+            <div class="lesson-stack" id="lesson-stack"></div>
+          </div>
+          <div class="lesson-block">
+            <h4 id="lesson-head-output">Output</h4>
+            <div class="lesson-output" id="lesson-output"></div>
+          </div>
+        </aside>
+      </div>
+      <footer class="lesson-narrator">
+        <div class="lesson-explain">
+          <div class="lesson-explain-head">
+            <h4>What happened</h4>
+            <div class="lesson-wave" id="lesson-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <p class="lesson-caption" id="lesson-caption"></p>
+        </div>
+        <div class="lesson-controls">
+          <button class="lesson-btn" id="lesson-prev" aria-label="Previous step">‹</button>
+          <button class="lesson-btn lesson-play" id="lesson-play" aria-label="Play lesson">▶</button>
+          <button class="lesson-btn" id="lesson-next" aria-label="Next step">›</button>
+          <button class="lesson-btn lesson-voice" id="lesson-voice" aria-pressed="true" title="Toggle narration">🔊</button><select class="lesson-speed" id="lesson-lang" aria-label="Narration language" title="Narration language"><option value="en" selected>English</option><option value="hi">Hinglish</option></select>
+          <select class="lesson-speed" id="lesson-speed" aria-label="Narration speed"><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.35">1.35×</option></select>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <div class="stdin-modal hidden" id="stdin-modal">
+    <div class="stdin-card" role="dialog" aria-modal="true" aria-label="Program input">
+      <header><b>Program input</b><button class="icon-button small" id="stdin-close" aria-label="Close">×</button></header>
+      <p>One value per line. Used by <code>input()</code>, <code>scanf</code>, <code>cin</code> and <code>Scanner</code>.</p>
+      <textarea id="stdin-input" rows="5" spellcheck="false" placeholder="Ada&#10;36"></textarea>
+      <footer><button class="button button-ghost" id="stdin-clear">Clear</button><button class="button button-primary" id="stdin-done">Done</button></footer>
+    </div>
+  </div>
+
+  <script src="app.js?v=61"></script>
+  <script src="lesson.js?v=61"></script>
+  <script src="anim.js?v=61"></script>
+</body>
+</html>

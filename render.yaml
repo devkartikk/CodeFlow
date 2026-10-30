@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: codeflow
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python backend.py
+    envVars:
+      - key: CODEFLOW_HOST
+        value: 0.0.0.0
+      - key: CODEFLOW_AI_API_KEY
+        sync: false
+      - key: CODEFLOW_AI_BASE_URL
+        value: https://api.openai.com/v1
+      - key: CODEFLOW_AI_MODEL
+        value: gpt-4o-mini
